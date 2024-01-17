@@ -1,3 +1,4 @@
+import 'package:complaint_management/auth/auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,10 +9,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AuthService auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Hoome"),
+    return Column(
+      children: [
+        Center(
+          child: Text("Home"),
+        ),
+        ElevatedButton(
+            onPressed: () {
+              auth.HandleGoogleSignOut();
+            },
+            child: Text("SIGNOUT"))
+      ],
     );
   }
 }

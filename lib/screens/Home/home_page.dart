@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Center(
-          child: Text("Hoome"),
+          child: Text("Home"),
         ),
         ElevatedButton(
             onPressed: () {

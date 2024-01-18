@@ -1,5 +1,6 @@
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Add%20Complaints/add_complaints.dart';
+import 'package:complaint_management/screens/Chats/chatscreen.dart';
 import 'package:complaint_management/screens/Help%20and%20Support/help_and_support.dart';
 import 'package:complaint_management/screens/Home/home_page.dart';
 import 'package:complaint_management/screens/Profile%20Page/profile_page.dart';
@@ -21,7 +22,9 @@ class BottomNavBar extends StatelessWidget {
         const HomePage(),
         const ViewComplaints(),
         const AddComplaints(),
-        const HelpAndSupport(),
+        ChatScreen(
+          complaintId: '1233',
+        ),
         const ProfilePage()
       ];
     }
@@ -41,7 +44,11 @@ class BottomNavBar extends StatelessWidget {
           inactiveColorPrimary: color3,
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.add_rounded, color: Colors.white, size: 35,),
+          icon: Icon(
+            Icons.add_rounded,
+            color: Colors.white,
+            size: 35,
+          ),
           title: ("Add"),
           activeColorPrimary: color1,
           inactiveColorPrimary: color3,

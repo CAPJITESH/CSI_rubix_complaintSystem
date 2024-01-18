@@ -19,6 +19,7 @@ class AuthChecker extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
+            print(snapshot.data);
             return BottomNavBar();
           } else {
             return SignUp();

@@ -14,6 +14,7 @@ class TextBox extends StatefulWidget {
   final bool isPassword;
   final bool isNumber;
   final bool readOnly;
+  final int maxLines;
   final VoidCallback? onTap;
 
   TextBox(
@@ -30,6 +31,7 @@ class TextBox extends StatefulWidget {
       this.isPassword = false,
       this.isNumber = false,
       this.readOnly = false,
+      this.maxLines = 1,
       this.onTap})
       : super(key: key);
 
@@ -83,6 +85,7 @@ class _TextBoxState extends State<TextBox> {
             focusNode: _focusNode,
             readOnly: widget.readOnly,
             onTap: widget.onTap,
+            maxLines: widget.maxLines,
             keyboardType:
                 widget.isNumber ? TextInputType.number : TextInputType.text,
             maxLength: widget.isNumber ? 10 : null,

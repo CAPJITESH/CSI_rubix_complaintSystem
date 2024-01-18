@@ -25,6 +25,7 @@ class _AuthCheckerState extends State<AuthChecker> {
   void getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     isRoleSelected = prefs.getBool("role_selected");
+    setState(() {});
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Bottom%20Nab%20Bar/bottom_nav_bar.dart';
+import 'package:complaint_management/screens/RoleSelection/employeeAppoint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,15 @@ class _RoleSelectionState extends State<RoleSelection> {
 
   List<String> roleList = ['Consumer', "Business Person"];
   List<String> technicalPositionList = [
-    "Technical issue",
-    "Mechanical Issue",
-    "Service Issue",
+    "Technical",
+    "Mechanical",
+    "Service",
     "Other"
   ];
   List<String> brnachList = ["Mumbai", "Goregoan", "Thane", "Mulund"];
 
+  EmployeeAppoint employeeAppoint = EmployeeAppoint();
+  late SharedPreferences prefs;
   @override
   void initState() {
     setData();
@@ -35,7 +38,7 @@ class _RoleSelectionState extends State<RoleSelection> {
   }
 
   void setData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
     prefs.setBool("role_selected", true);
   }
 
@@ -50,17 +53,17 @@ class _RoleSelectionState extends State<RoleSelection> {
           ),
           Container(
             height: 170,
-            width: 170,
+            width: 200,
             decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
                     'assets/amico.png',
                   ),
-                  fit: BoxFit.cover),
+                  fit: BoxFit.contain),
             ),
           ),
           const SizedBox(
-            height: 80,
+            height: 40,
           ),
           Expanded(
             child: Container(
@@ -255,19 +258,33 @@ class _RoleSelectionState extends State<RoleSelection> {
                   if (role.text != "")
                     ElevatedButton(
                       onPressed: () async {
-                        CollectionReference employees =
-                            FirebaseFirestore.instance.collection('employees');
+                        // CollectionReference employees =
+                        //     FirebaseFirestore.instance.collection('employees');
 
-                        await employees.add({
-                          "eid": auth.currentUser?.uid,
-                          'employee name': auth.currentUser?.displayName,
-                          'email': auth.currentUser?.email,
-                          'role': role.text,
-                          'assigned_complaints': 0,
-                          'resolved_complaints': 0,
-                          'inReview_complaints': 0
-                        });
+                        // await employees.add({
+                        //   "eid": auth.currentUser?.uid,
+                        //   'employee name': auth.currentUser?.displayName,
+                        //   'email': auth.currentUser?.email,
+                        //   'role': role.text,
+                        //   'assigned_complaints': 0,
+                        //   'resolved_complaints': 0,
+                        //   'inReview_complaints': 0
+                        // });
 
+                        if (role.text == "Business Person") {
+                          prefs.setBool("isEmployee", true);
+
+                          await employeeAppoint
+                              .addEmployee(technicalPosition.text, {
+                            "eid": auth.currentUser?.uid,
+                            'employee_name': auth.currentUser?.displayName,
+                            'email': auth.currentUser?.email,
+                            'role': technicalPosition.text,
+                            'assignedComplaints': 0,
+                            'resolvedComplaints': 0,
+                            'inReviewComplaints': 0
+                          });
+                        }
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) => BottomNavBar()),
@@ -281,7 +298,7 @@ class _RoleSelectionState extends State<RoleSelection> {
                         ),
                         minimumSize: const Size(
                           double.infinity,
-                          40,
+                          50,
                         ),
                       ),
                       child: const Text(

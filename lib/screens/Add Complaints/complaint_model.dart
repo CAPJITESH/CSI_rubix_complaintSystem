@@ -16,6 +16,8 @@ class ComplaintModel {
   List<AdminResponses>? adminResponses;
   List<CustomerResponses>? customerResponses;
   String? resolvedDate;
+  String? assignedEmployeeName;
+  String? assignedEmployeeId;
 
   ComplaintModel(
       {this.userId,
@@ -32,7 +34,9 @@ class ComplaintModel {
       this.isProcessing,
       this.adminResponses,
       this.customerResponses,
-      this.resolvedDate});
+      this.resolvedDate,
+      this.assignedEmployeeId,
+      this.assignedEmployeeName});
 
   ComplaintModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -48,6 +52,8 @@ class ComplaintModel {
     complaintCategory = json['complaintCategory'];
     isResolved = json['isResolved'];
     isProcessing = json['isProcessing'];
+    assignedEmployeeId = json['assignedEmployeeId'];
+    assignedEmployeeName = json['assignedEmployeeName'];
     if (json['adminResponses'] != null) {
       adminResponses = <AdminResponses>[];
       json['adminResponses'].forEach((v) {
@@ -77,6 +83,8 @@ class ComplaintModel {
     data['complaintCategory'] = this.complaintCategory;
     data['isResolved'] = this.isResolved;
     data['isProcessing'] = this.isProcessing;
+    data['assignedEmployeeId'] = this.assignedEmployeeId;
+    data['assignedEmployeeName'] = this.assignedEmployeeName;
     if (this.adminResponses != null) {
       data['adminResponses'] =
           this.adminResponses!.map((v) => v.toJson()).toList();

@@ -1,5 +1,6 @@
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Add%20Complaints/complaint_model.dart';
+import 'package:complaint_management/screens/RoleSelection/employeeAppoint.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,12 +27,7 @@ class _AddComplaintsState extends State<AddComplaints> {
   TextEditingController categoryController = TextEditingController();
   TextEditingController complaintMessageController = TextEditingController();
 
-  List<String> categoryList = [
-    "Technical issue",
-    "Mechanical Issue",
-    "Service Issue",
-    "Other"
-  ];
+  List<String> categoryList = ["Technical", "Mechanical", "Service", "Other"];
 
   String imgUrl = '';
 
@@ -379,24 +375,33 @@ class _AddComplaintsState extends State<AddComplaints> {
     String complaintTitle = complaintTitleController.text;
     String customerPhoneNo = !anony ? "Anonymous" : phoneNoController.text;
 
+    EmployeeAppoint emp = EmployeeAppoint();
+    final data = await emp.assignEmployee(complaintCategory);
+    String emp_id = data['eid'];
+    String emp_name = data['employee_name'];
+
+    print("emp id $emp_id");
+    print("emp name $emp_name");
+
     // Placeholder for complaint model instantiation
     ComplaintModel complaint = ComplaintModel(
-      userId: FirebaseAuth.instance.currentUser!.uid,
-      customerName: customerName,
-      customerPhoneNo: customerPhoneNo,
-      complaintTitle: complaintTitle,
-      complaintId: complaintId.toString(),
-      status: "Pending",
-      complaintDate: FieldValue.serverTimestamp(),
-      complaintMessage: complaintMessage,
-      complaintImages: [imgUrl],
-      complaintCategory: complaintCategory,
-      isResolved: false,
-      isProcessing: true,
-      adminResponses: [],
-      customerResponses: [],
-      resolvedDate: null,
-    );
+        userId: FirebaseAuth.instance.currentUser!.uid,
+        customerName: customerName,
+        customerPhoneNo: customerPhoneNo,
+        complaintTitle: complaintTitle,
+        complaintId: complaintId.toString(),
+        status: "Pending",
+        complaintDate: FieldValue.serverTimestamp(),
+        complaintMessage: complaintMessage,
+        complaintImages: [imgUrl],
+        complaintCategory: complaintCategory,
+        isResolved: false,
+        isProcessing: true,
+        adminResponses: [],
+        customerResponses: [],
+        resolvedDate: null,
+        assignedEmployeeId: emp_id,
+        assignedEmployeeName: emp_name);
 
     await FirebaseFirestore.instance
         .collection('complaints')

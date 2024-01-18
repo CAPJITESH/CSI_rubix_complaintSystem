@@ -252,7 +252,7 @@ class _RoleSelectionState extends State<RoleSelection> {
                         ),
                       ],
                     ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   if (role.text != "")
@@ -287,7 +287,7 @@ class _RoleSelectionState extends State<RoleSelection> {
                         }
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (context) => BottomNavBar()),
+                              builder: (context) => const BottomNavBar()),
                           (route) => false,
                         );
                       },

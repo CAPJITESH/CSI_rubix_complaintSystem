@@ -69,65 +69,57 @@ class _ViewComplaintsState extends State<ViewComplaints> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection("complaints")
-                      .where("userId", isEqualTo: uid)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: color1,
-                        ),
-                      );
-                    }
-                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "You haven't added any complaints",
-                          style: TextStyle(
-                            color: color2,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      );
-                    } else {
-                      List<dynamic> complaints = [];
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("complaints")
+                .where("userId", isEqualTo: uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: color1,
+                  ),
+                );
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Center(
+                  child: Text(
+                    "You haven't added any complaints",
+                    style: TextStyle(
+                      color: color2,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                );
+              } else {
+                List<dynamic> complaints = [];
 
-                      for (var doc in snapshot.data!.docs) {
-                        if (doc.data().isNotEmpty) {
-                          final temp = doc.data() as Map<String, dynamic>;
-                          print(doc.data());
-                          // print(temp['songData']);
-                          complaints.add(temp);
-                        }
-                      }
-                      complaints.sort((a, b) {
-                        Timestamp timestampA = a['complaintDate'];
-                        Timestamp timestampB = b['complaintDate'];
-                        return timestampB.compareTo(timestampA);
-                      });
-                      return Column(
-                        children: [
-                          for (int i = 0; i < complaints.length; i++)
-                            ViewComplaintCard(data: complaints[i]),
-                        ],
-                      );
-                    }
+                for (var doc in snapshot.data!.docs) {
+                  if (doc.data().isNotEmpty) {
+                    final temp = doc.data() as Map<String, dynamic>;
+                    print(doc.data());
+                    // print(temp['songData']);
+                    complaints.add(temp);
+                  }
+                }
+                complaints.sort((a, b) {
+                  Timestamp timestampA = a['complaintDate'];
+                  Timestamp timestampB = b['complaintDate'];
+                  return timestampB.compareTo(timestampA);
+                });
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: complaints.length,
+                  itemBuilder: (context, index) {
+                    return ViewComplaintCard(data: complaints[index]);
                   },
-                ),
-              ],
-            ),
+                );
+              }
+            },
           ),
         ),
       ),

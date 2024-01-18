@@ -1,4 +1,6 @@
 import 'package:complaint_management/screens/Bottom%20Nab%20Bar/bottom_nav_bar.dart';
+import 'package:complaint_management/screens/Getting%20Started/getting_started.dart';
+import 'package:complaint_management/screens/RoleSelection/roleSelection.dart';
 import 'package:complaint_management/screens/Signup/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,10 +21,10 @@ class AuthChecker extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
-            // print(snapshot.data);
-            return BottomNavBar();
+            print(snapshot.data);
+            return RoleSelection();
           } else {
-            return SignUp();
+            return GettingStarted();
           }
         },
       ),

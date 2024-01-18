@@ -55,7 +55,7 @@ class _ViewComplaintsState extends State<ViewComplaints> {
               const Padding(
                 padding: EdgeInsets.all(12.0),
                 child: Text(
-                  "Generate Complaints",
+                  "All Complaints",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -91,9 +91,16 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                       );
                     }
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return const Center(
-                        child: Text("No Data"),
-                      ); // Return an empty container if there are no favorites
+                      return Center(
+                        child: Text(
+                          "You haven't added any complaints",
+                          style: TextStyle(
+                            color: color2,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      );
                     } else {
                       List<dynamic> complaints = [];
 

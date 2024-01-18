@@ -1,6 +1,7 @@
 import 'package:complaint_management/auth/auth.dart';
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Login/login.dart';
+import 'package:complaint_management/screens/RoleSelection/roleSelection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:complaint_management/widgets/textfield.dart';
@@ -240,8 +241,15 @@ class _SignUpState extends State<SignUp> {
                   height: 5,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    auth.HandleGoogleSignIn();
+                  onPressed: () async {
+                    final res = await auth.HandleGoogleSignIn();
+                    if (res) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => RoleSelection()),
+                        (route) => false,
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:complaint_management/widgets/textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,27 +53,30 @@ class _AddComplaintsState extends State<AddComplaints> {
               bottomRight: Radius.circular(15),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  width: 10,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              IconButton(
+                onPressed: () {},
+                padding: const EdgeInsets.all(0),
+                icon: SvgPicture.asset(
+                  "assets/drawer_svg.svg",
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  width: 17,
+                  height: 19,
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.list,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                const Text(
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              const Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
                   "Generate Complaints",
                   style: TextStyle(
                     fontSize: 18,
@@ -80,9 +84,9 @@ class _AddComplaintsState extends State<AddComplaints> {
                     color: Colors.white,
                   ),
                 ),
-                const Spacer(),
-              ],
-            ),
+              ),
+              const Spacer(),
+            ],
           ),
         ),
       ),
@@ -139,7 +143,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextBox(
@@ -149,7 +153,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                         label: "",
                         obscureText: false,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       TextBox(
@@ -162,7 +166,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                       Divider(
                         color: color3,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                     ],
@@ -175,7 +179,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextBox(
@@ -185,7 +189,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                   icon: Icons.note_alt_outlined,
                   // icon: Icons.phone,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 DropdownMenu<String>(
@@ -237,7 +241,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                     );
                   }).toList(),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextBox(
@@ -248,7 +252,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                   // icon: Icons.phone,
                   maxLines: 3,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Row(
@@ -260,7 +264,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                       color: color1,
                       size: 28,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
@@ -283,7 +287,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Row(
@@ -298,7 +302,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                             child: DottedBorder(
                               borderType: BorderType.RRect,
                               color: color5,
-                              radius: Radius.circular(15),
+                              radius: const Radius.circular(15),
                               child: Container(
                                 height: 100,
                                 width: 80,
@@ -321,7 +325,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                         : DottedBorder(
                             borderType: BorderType.RRect,
                             color: color5,
-                            radius: Radius.circular(15),
+                            radius: const Radius.circular(15),
                             child: Container(
                               height: 100,
                               width: 80,
@@ -340,7 +344,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        minimumSize: Size(150, 40),
+                        minimumSize: const Size(150, 40),
                       ),
                       onPressed: () {
                         _submitComplaint();
@@ -356,7 +360,7 @@ class _AddComplaintsState extends State<AddComplaints> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
               ],

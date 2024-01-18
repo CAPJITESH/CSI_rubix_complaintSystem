@@ -1,3 +1,4 @@
+import 'package:complaint_management/screens/View%20Complaints/complaint_card.dart';
 import 'package:flutter/material.dart';
 
 class ViewComplaints extends StatefulWidget {
@@ -10,8 +11,11 @@ class ViewComplaints extends StatefulWidget {
 class _ViewComplaintsState extends State<ViewComplaints> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("View complaits"),
+    return Column(
+      children: [
+        ComplaintCard(),
+        ComplaintCard(),
+      ],
     );
   }
 }

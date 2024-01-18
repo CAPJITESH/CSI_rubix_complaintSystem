@@ -19,7 +19,11 @@ class BottomNavBar extends StatelessWidget {
 
     List<Widget> _buildScreens() {
       return [
-        const HomePage(),
+        HomePage(
+          resolved: 10,
+          pending: 20,
+          review: 5,
+        ),
         const ViewComplaints(),
         const AddComplaints(),
         ChatScreen(

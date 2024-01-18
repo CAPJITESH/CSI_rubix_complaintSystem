@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Bottom%20Nab%20Bar/bottom_nav_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoleSelection extends StatefulWidget {
   const RoleSelection({super.key});
@@ -12,6 +15,7 @@ class RoleSelection extends StatefulWidget {
 
 class _RoleSelectionState extends State<RoleSelection> {
   TextEditingController role = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController technicalPosition = TextEditingController();
   TextEditingController branch = TextEditingController();
 
@@ -23,6 +27,17 @@ class _RoleSelectionState extends State<RoleSelection> {
     "Other"
   ];
   List<String> brnachList = ["Mumbai", "Goregoan", "Thane", "Mulund"];
+
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  void setData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("role_selected", true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +254,20 @@ class _RoleSelectionState extends State<RoleSelection> {
                   ),
                   if (role.text != "")
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        CollectionReference employees =
+                            FirebaseFirestore.instance.collection('employees');
+
+                        await employees.add({
+                          "eid": auth.currentUser?.uid,
+                          'employee name': auth.currentUser?.displayName,
+                          'email': auth.currentUser?.email,
+                          'role': role.text,
+                          'assigned_complaints': 0,
+                          'resolved_complaints': 0,
+                          'inReview_complaints': 0
+                        });
+
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) => BottomNavBar()),

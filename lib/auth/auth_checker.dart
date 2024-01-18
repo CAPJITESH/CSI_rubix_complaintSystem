@@ -4,9 +4,28 @@ import 'package:complaint_management/screens/RoleSelection/roleSelection.dart';
 import 'package:complaint_management/screens/Signup/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthChecker extends StatelessWidget {
+class AuthChecker extends StatefulWidget {
   const AuthChecker({super.key});
+
+  @override
+  State<AuthChecker> createState() => _AuthCheckerState();
+}
+
+class _AuthCheckerState extends State<AuthChecker> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
+  bool? isRoleSelected;
+  void getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    isRoleSelected = prefs.getBool("role_selected");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +40,14 @@ class AuthChecker extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
-            print(snapshot.data);
-            return RoleSelection();
+            // print(snapshot.data);
+            if (isRoleSelected == null) {
+              return const RoleSelection();
+            } else {
+              return const BottomNavBar();
+            }
           } else {
-            return GettingStarted();
+            return const GettingStarted();
           }
         },
       ),

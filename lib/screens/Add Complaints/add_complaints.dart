@@ -1,6 +1,7 @@
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Add%20Complaints/complaint_model.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:complaint_management/widgets/textfield.dart';
@@ -380,12 +381,13 @@ class _AddComplaintsState extends State<AddComplaints> {
 
     // Placeholder for complaint model instantiation
     ComplaintModel complaint = ComplaintModel(
+      userId: FirebaseAuth.instance.currentUser!.uid,
       customerName: customerName,
       customerPhoneNo: customerPhoneNo,
       complaintTitle: complaintTitle,
       complaintId: complaintId.toString(),
       status: "Pending",
-      complaintDate: DateTime.now().toString(),
+      complaintDate: FieldValue.serverTimestamp(),
       complaintMessage: complaintMessage,
       complaintImages: [imgUrl],
       complaintCategory: complaintCategory,

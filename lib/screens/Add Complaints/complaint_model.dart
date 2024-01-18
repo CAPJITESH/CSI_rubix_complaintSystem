@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ComplaintModel {
+  String? userId;
   String? customerName;
   String? customerPhoneNo;
   String? complaintId;
   String? complaintTitle;
   String? status;
-  String? complaintDate;
+  FieldValue? complaintDate;
   String? complaintMessage;
   List<String>? complaintImages;
   String? complaintCategory;
@@ -15,7 +18,8 @@ class ComplaintModel {
   String? resolvedDate;
 
   ComplaintModel(
-      {this.customerName,
+      {this.userId,
+      this.customerName,
       this.complaintId,
       this.complaintTitle,
       this.customerPhoneNo,
@@ -31,6 +35,7 @@ class ComplaintModel {
       this.resolvedDate});
 
   ComplaintModel.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
     customerName = json['customerName'];
     customerPhoneNo = json['customerPhoneNo'];
     complaintId = json['complaintId'];
@@ -60,6 +65,7 @@ class ComplaintModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.userId;
     data['customerName'] = this.customerName;
     data['customerPhoneNo'] = this.customerPhoneNo;
     data['complaintId'] = this.complaintId;

@@ -3,6 +3,7 @@ import "package:complaint_management/screens/Chats/chatservices.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:complaint_management/screens/Chats/message_bubble.dart';
 
 class ChatScreen extends StatelessWidget {
   final String complaintId;
@@ -30,6 +31,7 @@ class ChatScreen extends StatelessWidget {
             .doc(chatRoomId())
             .snapshots(),
         builder: (context, snapshot) {
+          String customer = snapshot.data!.data()!["customer"];
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -53,19 +55,47 @@ class ChatScreen extends StatelessWidget {
                   print(imgUrl);
                   print("JJJJJJJJJJJJJJ");
 
-                  return SizedBox(
-                      height: size.height * 0.25, child: Image.network(imgUrl));
+                  return Align(
+                    alignment: auth.currentUser!.uid == customer
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: UnconstrainedBox(
+                      child: Container(
+                        margin: const EdgeInsets.all(5).copyWith(top: 0),
+                        height: size.height * 0.25,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: Image.network(imgUrl),
+                        ),
+                      ),
+                    ),
+                  );
                 } else {
                   chat = ChatModel.fromJson(
                       snapshot.data!.data()!["chats"][index]);
 
-                  return ListTile(
+                  return Align(
+                      alignment: auth.currentUser!.uid == customer
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: UnconstrainedBox(
+                        child: MessageBubble(
+                          text: chat.message.toString(),
+                          color: auth.currentUser!.uid == customer
+                              ? Colors.blueAccent
+                              : Colors.grey.shade200,
+                          textColor: auth.currentUser!.uid == customer
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ));
+                  /*ListTile(
                     title: Text(chat.by.toString()),
                     subtitle: Text(chat.message.toString()),
                     trailing: Text(
                       chat.dateTime!.toString().substring(0, 10),
                     ),
-                  );
+                  );*/
                 }
               });
         },

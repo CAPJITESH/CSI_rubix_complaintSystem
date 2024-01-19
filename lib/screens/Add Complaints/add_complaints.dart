@@ -411,6 +411,8 @@ class _AddComplaintsState extends State<AddComplaints> {
         {
           "chats":[],
           "consumer": FirebaseAuth.instance.currentUser!.uid,
+          "eid":emp_id,
+          "category":complaintCategory,
         }
     );
   }

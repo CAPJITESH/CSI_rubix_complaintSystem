@@ -41,9 +41,9 @@ class Logout extends StatelessWidget {
             height: 10,
           ),
           Text(
-            "Are you sure you want to logout of Mahavar Eurotech",
+            "Are you sure you want to logout?",
             style: TextStyle(
-                fontSize: 13, color: color3, fontWeight: FontWeight.w500),
+                fontSize: 14, color: color3, fontWeight: FontWeight.w500),
           ),
           const SizedBox(
             height: 15,

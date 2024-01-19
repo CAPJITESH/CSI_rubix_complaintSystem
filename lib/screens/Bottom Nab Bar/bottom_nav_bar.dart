@@ -80,14 +80,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
     List<Widget> _buildScreens() {
       return [
-        false
+        true
             ? const UserHomePage()
             : BusinessHomePage(
                 resolved: resolved, pending: pending, review: review),
         const ViewComplaints(),
-        if (false) const AddComplaints(),
+        if (true) const AddComplaints(),
         ChatScreen(
           complaintId: '1233',
+          status: "Pending",
         ),
         const ProfilePage()
       ];
@@ -107,7 +108,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           activeColorPrimary: color1,
           inactiveColorPrimary: color3,
         ),
-        if (false)
+        if (true)
           PersistentBottomNavBarItem(
             icon: const Icon(
               Icons.add_rounded,
@@ -163,7 +164,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: false
+      navBarStyle: true
           ? NavBarStyle.style15
           : NavBarStyle.style6, // Choose the nav bar style with this property.
     );

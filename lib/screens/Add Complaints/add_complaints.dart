@@ -1,6 +1,7 @@
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Add%20Complaints/complaint_model.dart';
 import 'package:complaint_management/screens/RoleSelection/employeeAppoint.dart';
+import 'package:complaint_management/screens/View%20Complaints/view_complaints.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -406,6 +407,21 @@ class _AddComplaintsState extends State<AddComplaints> {
     await FirebaseFirestore.instance
         .collection('complaints')
         .add(complaint.toJson());
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(
+        "Complaint Submitted successfully...",
+      ),
+      backgroundColor: color4,
+      shape: StadiumBorder(),
+      margin: EdgeInsets.all(20),
+      behavior: SnackBarBehavior.floating,
+      elevation: 10,
+    ));
+
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const ViewComplaints()),
+    );
   }
 
   void pickFiles(String complaintId) async {

@@ -40,12 +40,12 @@ class ViewComplaintCardState extends State<ViewComplaintCard> {
     return InkWell(
       onTap: () {
         print(widget.data['complaintId']);
-        Navigator.of(context).pushAndRemoveUntil(
+        Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => ChatScreen(
                     complaintId: widget.data['complaintId'],
+                    status: widget.data['status'],
                   )),
-          (route) => false,
         );
       },
       child: Container(

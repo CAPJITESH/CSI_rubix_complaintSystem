@@ -88,7 +88,7 @@ class _ViewComplaintsState extends State<ViewComplaints> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: StreamBuilder(
-            stream: false
+            stream: true
                 ? FirebaseFirestore.instance
                     .collection("complaints")
                     .where("userId", isEqualTo: uid)

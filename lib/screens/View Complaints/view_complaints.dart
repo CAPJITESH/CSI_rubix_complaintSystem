@@ -114,6 +114,7 @@ class _ViewComplaintsState extends State<ViewComplaints> {
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: complaints.length,
+                  shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return ViewComplaintCard(data: complaints[index]);
                   },

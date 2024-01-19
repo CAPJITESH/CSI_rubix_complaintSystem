@@ -28,19 +28,29 @@ class ChatScreen extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("Chats")
-            .doc(chatRoomId())
+            .doc(complaintId)
             .snapshots(),
         builder: (context, snapshot) {
-          String customer = snapshot.data!.data()!["customer"];
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
+          if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(
+              child: Text("No Chats Available"),
+            );
+          }
+          //the below line is causing error
+          String customer = snapshot.data!.data()!["customer"];
+
+          
           try {
             final testVar = snapshot.data!.data()!["chats"];
           } catch (e) {
+            print(e);
+
             return const Center(
               child: Text("No Chats Available"),
             );
@@ -52,8 +62,6 @@ class ChatScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 if (snapshot.data!.data()!["chats"][index].containsKey("img")) {
                   String imgUrl = snapshot.data!.data()!["chats"][index]["img"];
-                  print(imgUrl);
-                  print("JJJJJJJJJJJJJJ");
 
                   return Align(
                     alignment: auth.currentUser!.uid == customer
@@ -124,8 +132,7 @@ class ChatScreen extends StatelessWidget {
                       dateTime: DateTime.now().toString(),
                       by: auth.currentUser?.uid,
                       to: "complaintId");
-                  ChatService.sendMessage(
-                      messageController.text, chatRoomId(), chat);
+                  ChatService.sendMessage(chatRoomId(), chat);
                 }
               },
             ),
@@ -139,6 +146,6 @@ class ChatScreen extends StatelessWidget {
   }
 
   String chatRoomId() {
-    return "auth.currentUser!.uid$complaintId";
+    return "complaintId";
   }
 }

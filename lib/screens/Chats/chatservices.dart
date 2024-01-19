@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class ChatService {
   static final auth = FirebaseAuth.instance;
-  static sendMessage(String message, String chatRoomId, ChatModel chat) async {
+  static sendMessage(String chatRoomId, ChatModel chat) async {
     final data = await FirebaseFirestore.instance
         .collection("Chats")
         .doc(chatRoomId)
@@ -47,7 +47,7 @@ class ChatService {
       });
 
       await FirebaseFirestore.instance.collection("Chats").doc(chatRoomId).set({
-        "customer":auth.currentUser!.uid,
+        "customer": auth.currentUser!.uid,
         "chats": chats,
       });
     }

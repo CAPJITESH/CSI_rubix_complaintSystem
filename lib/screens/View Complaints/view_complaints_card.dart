@@ -1,4 +1,5 @@
 import 'package:complaint_management/constants.dart';
+import 'package:complaint_management/screens/Chats/chatscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -37,7 +38,16 @@ class ViewComplaintCardState extends State<ViewComplaintCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        print(widget.data['complaintId']);
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => ChatScreen(
+                    complaintId: widget.data['complaintId'],
+                  )),
+          (route) => false,
+        );
+      },
       child: Container(
         height: 120,
         margin: EdgeInsets.only(bottom: 15),

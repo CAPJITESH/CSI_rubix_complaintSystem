@@ -44,12 +44,13 @@ dependencies:
   fpdart: ^1.1.0
   firebase_storage: ^11.6.0
   file_picker: ^6.1.1
-  uuid: ^4.3.3
+  uuid: ^4.2.2
   dotted_border: ^2.1.0
   flutter_svg: ^2.0.9
   intl: ^0.19.0
   shared_preferences: ^2.2.2
   sliding_up_panel: ^2.0.0+1
+  fl_chart: ^0.63.0
 
 dev_dependencies:
   flutter_test:

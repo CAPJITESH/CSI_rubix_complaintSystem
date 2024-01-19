@@ -1,14 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Add%20Complaints/add_complaints.dart';
 import 'package:complaint_management/screens/Chats/chatscreen.dart';
 import 'package:complaint_management/screens/Help%20and%20Support/help_and_support.dart';
+import 'package:complaint_management/screens/Home/business_home_page.dart';
 import 'package:complaint_management/screens/Home/home_page.dart';
 import 'package:complaint_management/screens/Profile%20Page/profile.dart';
 import 'package:complaint_management/screens/Profile%20Page/profile_page.dart';
 import 'package:complaint_management/screens/View%20Complaints/view_complaints.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Home/user_home_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -26,9 +31,24 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   bool? isEmployee;
+  String? role;
+  int resolved = 0, pending = 0, review = 0;
+  
+
   void getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     isEmployee = prefs.getBool("isEmployee");
+    role = prefs.getString('role');
+    var snapshot = await FirebaseFirestore.instance.collection('Employee').doc('Complaints').get();
+    List listOfRoles = snapshot.exists ? snapshot.data()!['listOf$role'] : []; 
+    for (var i = 0; i < listOfRoles.length; i++) {
+      if (listOfRoles[i]['eid'] == FirebaseAuth.instance.currentUser!.uid) {
+        resolved = listOfRoles[i]['resolvedComplaints'];
+        pending = listOfRoles[i]['assignedComplaints'];
+        review = listOfRoles[i]['inReviewComplaints '];
+      }  
+    }
+    
     setState(() {});
   }
 
@@ -40,7 +60,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
     List<Widget> _buildScreens() {
       return [
-        const HomePage(),
+        isEmployee == null 
+        ? const UserHomePage()
+        : BusinessHomePage(resolved: resolved, pending: pending, review: review),
         const ViewComplaints(),
         if (isEmployee == null) const AddComplaints(),
         ChatScreen(
@@ -53,20 +75,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.home_rounded),
+          icon: const Icon(Icons.home_rounded),
           title: ("Home"),
           activeColorPrimary: color1,
           inactiveColorPrimary: color3,
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.report_problem_outlined),
+          icon: const Icon(Icons.report_problem_outlined),
           title: ("Complaints"),
           activeColorPrimary: color1,
           inactiveColorPrimary: color3,
         ),
         if (isEmployee == null)
           PersistentBottomNavBarItem(
-            icon: Icon(
+            icon: const Icon(
               Icons.add_rounded,
               color: Colors.white,
               size: 35,
@@ -76,13 +98,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
             inactiveColorPrimary: color3,
           ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.chat),
+          icon: const Icon(Icons.chat),
           title: ("Chat"),
           activeColorPrimary: color1,
           inactiveColorPrimary: color3,
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.person),
+          icon: const Icon(Icons.person),
           title: ("Profile"),
           activeColorPrimary: color1,
           inactiveColorPrimary: color3,

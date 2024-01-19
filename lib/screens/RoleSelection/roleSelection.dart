@@ -40,6 +40,7 @@ class _RoleSelectionState extends State<RoleSelection> {
   void setData() async {
     prefs = await SharedPreferences.getInstance();
     prefs.setBool("role_selected", true);
+    prefs.setString("role", role.text);
   }
 
   @override

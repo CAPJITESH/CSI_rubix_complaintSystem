@@ -42,8 +42,7 @@ class ChatScreen extends StatelessWidget {
               child: Text("No Chats Available"),
             );
           }
-          //the below line is causing error
-          String customer = snapshot.data!.data()!["customer"];
+          
 
           
           try {
@@ -55,6 +54,9 @@ class ChatScreen extends StatelessWidget {
               child: Text("No Chats Available"),
             );
           }
+          
+          //the below line is causing error
+          String customer = snapshot.data!.data()!["customer"];
 
           return ListView.builder(
               physics: const BouncingScrollPhysics(),

@@ -17,8 +17,7 @@ class ChatService {
     List chats = data.exists ? data["chats"] : [];
     chats.add(chat.toJson());
 
-    await FirebaseFirestore.instance.collection("Chats").doc(chatRoomId).set({
-      "customer": auth.currentUser!.uid,
+    await FirebaseFirestore.instance.collection("Chats").doc(chatRoomId).update({
       "chats": chats,
     });
   }

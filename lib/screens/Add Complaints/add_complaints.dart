@@ -406,6 +406,13 @@ class _AddComplaintsState extends State<AddComplaints> {
     await FirebaseFirestore.instance
         .collection('complaints')
         .add(complaint.toJson());
+
+    await FirebaseFirestore.instance.collection("Chats").doc(complaintId).set(
+        {
+          "chats":[],
+          "consumer": FirebaseAuth.instance.currentUser!.uid,
+        }
+    );
   }
 
   void pickFiles(String complaintId) async {

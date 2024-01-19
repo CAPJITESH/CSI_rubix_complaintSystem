@@ -282,7 +282,8 @@ class _RoleSelectionState extends State<RoleSelection> {
                             'role': technicalPosition.text,
                             'assignedComplaints': 0,
                             'resolvedComplaints': 0,
-                            'inReviewComplaints': 0
+                            'inReviewComplaints': 0,
+                            'ratings':0
                           });
                         }
                         Navigator.of(context).pushAndRemoveUntil(

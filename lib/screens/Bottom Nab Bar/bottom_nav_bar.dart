@@ -30,26 +30,46 @@ class _BottomNavBarState extends State<BottomNavBar> {
     super.initState();
   }
 
-  bool? isEmployee;
+  bool? isEmployee, isConsumer;
   String? role;
   int resolved = 0, pending = 0, review = 0;
-  
 
   void getData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    isEmployee = prefs.getBool("isEmployee");
-    role = prefs.getString('role');
-    var snapshot = await FirebaseFirestore.instance.collection('Employee').doc('Complaints').get();
-    List listOfRoles = snapshot.exists ? snapshot.data()!['listOf$role'] : []; 
-    for (var i = 0; i < listOfRoles.length; i++) {
-      if (listOfRoles[i]['eid'] == FirebaseAuth.instance.currentUser!.uid) {
-        resolved = listOfRoles[i]['resolvedComplaints'];
-        pending = listOfRoles[i]['assignedComplaints'];
-        review = listOfRoles[i]['inReviewComplaints '];
-      }  
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      isEmployee = await prefs.getBool("isEmployee");
+      isConsumer = await prefs.getBool('isConsumer');
+      print(isEmployee.toString());
+      print(isConsumer.toString());
+
+      role = prefs.getString('role');
+
+      if (isEmployee != null && role != null) {
+        var snapshot = await FirebaseFirestore.instance
+            .collection('Employee')
+            .doc('Complaints')
+            .get();
+
+        if (snapshot.exists) {
+          List<dynamic>? listOfRoles = snapshot.data()?['listOf$role'];
+
+          if (listOfRoles != null) {
+            for (var i = 0; i < listOfRoles.length; i++) {
+              if (listOfRoles[i]['eid'] ==
+                  FirebaseAuth.instance.currentUser!.uid) {
+                resolved = listOfRoles[i]['resolvedComplaints'] ?? 0;
+                pending = listOfRoles[i]['assignedComplaints'] ?? 2;
+                review = listOfRoles[i]['inReviewComplaints'] ?? 0;
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
     }
-    
-    setState(() {});
+
+    // setState(() {});
   }
 
   @override
@@ -60,11 +80,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
     List<Widget> _buildScreens() {
       return [
-        isEmployee == null 
-        ? const UserHomePage()
-        : BusinessHomePage(resolved: resolved, pending: pending, review: review),
+        false
+            ? const UserHomePage()
+            : BusinessHomePage(
+                resolved: resolved, pending: pending, review: review),
         const ViewComplaints(),
-        if (isEmployee == null) const AddComplaints(),
+        if (false) const AddComplaints(),
         ChatScreen(
           complaintId: '1233',
         ),
@@ -86,7 +107,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           activeColorPrimary: color1,
           inactiveColorPrimary: color3,
         ),
-        if (isEmployee == null)
+        if (false)
           PersistentBottomNavBarItem(
             icon: const Icon(
               Icons.add_rounded,
@@ -142,7 +163,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: isEmployee == null
+      navBarStyle: false
           ? NavBarStyle.style15
           : NavBarStyle.style6, // Choose the nav bar style with this property.
     );

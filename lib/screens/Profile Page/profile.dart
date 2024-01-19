@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
   addData() {
     FirebaseAuth auth = FirebaseAuth.instance;
     name = auth.currentUser!.displayName!;
-    phoneNo = auth.currentUser!.phoneNumber!;
+    // phoneNo = auth.currentUser!.phoneNumber!;
     email = auth.currentUser!.email!;
   }
 
@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Text(
                               name,
                               style: const TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w600),
+                                  fontSize: 19, fontWeight: FontWeight.w600),
                             ),
                             if (phoneNo != "")
                               Text(
@@ -120,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Text(
                               email,
                               style: const TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w400),
+                                  fontSize: 15, fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),

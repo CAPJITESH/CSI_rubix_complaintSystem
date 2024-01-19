@@ -3,6 +3,7 @@ import 'package:complaint_management/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'view_complaints_card.dart';
 
@@ -14,6 +15,21 @@ class ViewComplaints extends StatefulWidget {
 }
 
 class _ViewComplaintsState extends State<ViewComplaints> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
+  bool? isEmployee;
+
+  getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    isEmployee = await prefs.getBool("isEmployee");
+    setState(() {});
+  }
+
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
@@ -72,10 +88,15 @@ class _ViewComplaintsState extends State<ViewComplaints> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection("complaints")
-                .where("userId", isEqualTo: uid)
-                .snapshots(),
+            stream: false
+                ? FirebaseFirestore.instance
+                    .collection("complaints")
+                    .where("userId", isEqualTo: uid)
+                    .snapshots()
+                : FirebaseFirestore.instance
+                    .collection("complaints")
+                    .where("assignedEmployeeId", isEqualTo: uid)
+                    .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(

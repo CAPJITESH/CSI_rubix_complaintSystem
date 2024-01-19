@@ -16,12 +16,12 @@ class StatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 145,
+      width: 125,
       height: 90,
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: color4),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(15), color: color4),
       child: Column(
         children: [
           Text(

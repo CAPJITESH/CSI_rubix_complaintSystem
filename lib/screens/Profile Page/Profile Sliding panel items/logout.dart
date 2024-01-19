@@ -2,6 +2,7 @@ import 'package:complaint_management/auth/auth.dart';
 import 'package:complaint_management/constants.dart';
 import 'package:complaint_management/screens/Getting%20Started/getting_started.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:mahavar_eurotech/constants.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -69,7 +70,13 @@ class Logout extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  // Remove data for the 'counter' key.
+                  await prefs.remove('counter');
+
                   AuthService auth = AuthService();
+
                   await auth.HandleGoogleSignOut();
 
                   Navigator.of(context).pushAndRemoveUntil(

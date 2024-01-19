@@ -114,11 +114,11 @@ class _GettingStartedState extends State<GettingStarted> {
                               ),
                             ),
                             Text(
-                              'with your trusted',
+                              'Do you have a Complaint?',
                               style: TextStyle(color: color1, fontSize: 13),
                             ),
                             Text(
-                              'companion for optimal water purification!',
+                              'Dont Worry We have got you!!',
                               style: TextStyle(color: color1, fontSize: 13),
                             ),
                           ],

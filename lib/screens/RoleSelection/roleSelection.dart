@@ -274,7 +274,9 @@ class _RoleSelectionState extends State<RoleSelection> {
 
                         if (role.text == "Business Person") {
                           prefs.setBool("isEmployee", true);
-
+                          setState(() {
+                            
+                          });
                           await employeeAppoint
                               .addEmployee(technicalPosition.text, {
                             "eid": auth.currentUser?.uid,
@@ -284,6 +286,11 @@ class _RoleSelectionState extends State<RoleSelection> {
                             'assignedComplaints': 0,
                             'resolvedComplaints': 0,
                             'inReviewComplaints': 0
+                          });
+                        }else{
+                          prefs.setBool("isConsumer", true);
+                          setState(() {
+                            
                           });
                         }
                         Navigator.of(context).pushAndRemoveUntil(

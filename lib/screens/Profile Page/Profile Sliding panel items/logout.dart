@@ -80,8 +80,7 @@ class Logout extends StatelessWidget {
                   await auth.HandleGoogleSignOut();
 
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => const GettingStarted()),
+                    MaterialPageRoute(builder: (context) => GettingStarted()),
                     (route) => false,
                   );
                 },

@@ -30,6 +30,8 @@ class _BusinessHomePageState extends State<BusinessHomePage> {
     final int total = widget.pending + widget.resolved + widget.review;
     FirebaseAuth auth = FirebaseAuth.instance;
     String name = auth.currentUser?.displayName ?? "";
+    print(widget.pending);
+    print("In gome");
     return Scaffold(
       backgroundColor: color4,
       appBar: PreferredSize(
@@ -105,26 +107,30 @@ class _BusinessHomePageState extends State<BusinessHomePage> {
                           title: 'Resolved',
                           val: widget.resolved,
                           color: Colors.green,
+                          nav: 'Resolved',
                         ),
                         StatsCard(
                           title: 'Pending',
-                          val: 2,
+                          val: widget.pending,
                           color: Colors.brown,
-                        ),
+                          nav: 'Pending',
+                        )
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         StatsCard(
-                          title: 'Review',
+                          title: 'In Review',
                           val: widget.review,
                           color: color2,
+                          nav: 'In Review',
                         ),
                         StatsCard(
                           title: 'Total',
-                          val: 2,
+                          val: total,
                           color: Colors.pink,
+                          nav: 'total',
                         ),
                       ],
                     ),

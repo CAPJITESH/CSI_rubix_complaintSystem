@@ -44,23 +44,30 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
       role = prefs.getString('role');
 
-      if (isEmployee != null && role != null) {
-        var snapshot = await FirebaseFirestore.instance
-            .collection('Employee')
-            .doc('Complaints')
-            .get();
+      var snapshot = await FirebaseFirestore.instance
+          .collection('Employee')
+          .doc('Complaints')
+          .get();
 
-        if (snapshot.exists) {
-          List<dynamic>? listOfRoles = snapshot.data()?['listOf$role'];
+      if (snapshot.exists) {
+        List<dynamic>? listOfRoles = await snapshot.data()?['listOfMechanical'];
+        print(role);
+        print(listOfRoles);
+        if (listOfRoles != null) {
+          for (var i = 0; i < listOfRoles.length; i++) {
+            if (listOfRoles[i]['eid'] ==
+                FirebaseAuth.instance.currentUser!.uid) {
+              print(listOfRoles[i]['resolvedComplaints']);
+              print("listOfRoles[i]['resolvedComplaints']");
 
-          if (listOfRoles != null) {
-            for (var i = 0; i < listOfRoles.length; i++) {
-              if (listOfRoles[i]['eid'] ==
-                  FirebaseAuth.instance.currentUser!.uid) {
-                resolved = listOfRoles[i]['resolvedComplaints'] ?? 0;
-                pending = listOfRoles[i]['assignedComplaints'] ?? 2;
-                review = listOfRoles[i]['inReviewComplaints'] ?? 0;
-              }
+              print(listOfRoles[i]['assignedComplaints']);
+              print("listOfRoles[i]['resolvedComplaints']");
+
+              print(listOfRoles[i]['inReviewComplaints']);
+
+              resolved = listOfRoles[i]['resolvedComplaints'] ?? 0;
+              pending = listOfRoles[i]['assignedComplaints'] ?? 0;
+              review = listOfRoles[i]['inReviewComplaints'] ?? 0;
             }
           }
         }
@@ -69,7 +76,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       print('Error fetching data: $e');
     }
 
-    // setState(() {});
+    setState(() {});
   }
 
   @override

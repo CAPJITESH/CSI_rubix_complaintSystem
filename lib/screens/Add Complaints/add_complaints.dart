@@ -28,6 +28,8 @@ class _AddComplaintsState extends State<AddComplaints> {
   TextEditingController categoryController = TextEditingController();
   TextEditingController complaintMessageController = TextEditingController();
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   List<String> categoryList = ["Technical", "Mechanical", "Service", "Other"];
 
   String imgUrl = '';
@@ -408,9 +410,17 @@ class _AddComplaintsState extends State<AddComplaints> {
         .collection('complaints')
         .add(complaint.toJson());
 
+    await FirebaseFirestore.instance.collection("Chats").doc(complaintId).set({
+      "chats": [],
+      "customer": auth.currentUser!.uid,
+      "eid": emp_id,
+      "category": complaintCategory
+    });
+
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text(
         "Complaint Submitted successfully...",
+        style: TextStyle(color: Colors.black),
       ),
       backgroundColor: color4,
       shape: StadiumBorder(),

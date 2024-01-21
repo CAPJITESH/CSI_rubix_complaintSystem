@@ -2,6 +2,7 @@ import 'package:complaint_management/constants.dart';
 import "package:complaint_management/screens/Chats/chatmodel.dart";
 import "package:complaint_management/screens/Chats/chatservices.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:complaint_management/screens/RoleSelection/employeeAppoint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   List<String> statusList = ['Pending', "In Review", "Resolved"];
 
   TextEditingController _status = TextEditingController();
+  String eid = "shshg";
 
   bool showTextfield = true;
   @override
@@ -56,81 +58,81 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           actions: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 30, 0),
-              child: DropdownMenu<String>(
-                width: 140,
+            // Container(
+            //   margin: const EdgeInsets.fromLTRB(10, 10, 30, 0),
+            //   child: DropdownMenu<String>(
+            //     width: 140,
 
-                initialSelection: widget.status,
-                textStyle: const TextStyle(fontSize: 14),
-                label: Text(
-                  "Update Status",
-                  style: TextStyle(color: color1),
-                ),
-                trailingIcon: Icon(
-                  CupertinoIcons.chevron_down,
-                  color: color3,
-                ),
-                selectedTrailingIcon: Icon(
-                  CupertinoIcons.chevron_up,
-                  color: color1,
-                ),
-                menuStyle: MenuStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.white)),
-                inputDecorationTheme: InputDecorationTheme(
-                  constraints: const BoxConstraints(maxHeight: 47),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: color1),
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: color1, width: 1.9),
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: green, width: 1.9),
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                ),
-                onSelected: (String? value) async {
-                  _status.text = value!;
+            //     initialSelection: widget.status,
+            //     textStyle: const TextStyle(fontSize: 14),
+            //     label: Text(
+            //       "Update Status",
+            //       style: TextStyle(color: color1),
+            //     ),
+            //     trailingIcon: Icon(
+            //       CupertinoIcons.chevron_down,
+            //       color: color3,
+            //     ),
+            //     selectedTrailingIcon: Icon(
+            //       CupertinoIcons.chevron_up,
+            //       color: color1,
+            //     ),
+            //     menuStyle: MenuStyle(
+            //         backgroundColor: MaterialStatePropertyAll(Colors.white)),
+            //     inputDecorationTheme: InputDecorationTheme(
+            //       constraints: const BoxConstraints(maxHeight: 47),
+            //       border: OutlineInputBorder(
+            //         borderSide: BorderSide(color: color1),
+            //         borderRadius: BorderRadius.circular(
+            //           10,
+            //         ),
+            //       ),
+            //       enabledBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(color: color1, width: 1.9),
+            //         borderRadius: BorderRadius.circular(
+            //           10,
+            //         ),
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(color: green, width: 1.9),
+            //         borderRadius: BorderRadius.circular(
+            //           10,
+            //         ),
+            //       ),
+            //     ),
+            //     onSelected: (String? value) async {
+            //       _status.text = value!;
 
-                  CollectionReference complaintsCollection =
-                      FirebaseFirestore.instance.collection('complaints');
+            //       CollectionReference complaintsCollection =
+            //           FirebaseFirestore.instance.collection('complaints');
 
-                  // Query for documents where complaintId is equal to the specified value
-                  QuerySnapshot querySnapshot = await complaintsCollection
-                      .where('complaintId', isEqualTo: widget.complaintId)
-                      .get();
+            //       QuerySnapshot querySnapshot = await complaintsCollection
+            //           .where('complaintId', isEqualTo: widget.complaintId)
+            //           .get();
 
-                  // Check if any documents match the query
-                  if (querySnapshot.docs.isNotEmpty) {
-                    // Return the DocumentReference of the first matching document
-                    DocumentReference complaintRef =
-                        await querySnapshot.docs.first.reference;
+            //       if (querySnapshot.docs.isNotEmpty) {
+            //         DocumentReference complaintRef =
+            //             await querySnapshot.docs.first.reference;
 
-                    await complaintRef.update({'status': value});
-                  }
+            //         await complaintRef.update({'status': value});
 
-                  setState(() {});
-                },
-                controller: _status,
-                // underline: SizedBox.shrink(),
-                dropdownMenuEntries:
-                    statusList.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(
-                    value: value,
-                    label: value,
-                  );
-                }).toList(),
-              ),
-            ),
+            //         EmployeeAppoint emp = EmployeeAppoint();
+            //         await emp.updateInfo(eid, "Mechanic");
+            //       }
+
+            //       setState(() {});
+            //     },
+            //     controller: _status,
+            //     // underline: SizedBox.shrink(),
+            //     dropdownMenuEntries:
+            //         statusList.map<DropdownMenuEntry<String>>((String value) {
+            //       return DropdownMenuEntry<String>(
+            //         value: value,
+            //         label: value,
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -161,14 +163,17 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Text("No Chats Available"),
             );
           }
-
           //the below line is causing error
-          String customer = snapshot.data!.data()!["customer"];
+          //String customer = snapshot.data!.data()!["customer"];
+          eid = snapshot.data!.data()!["eid"];
 
           return ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: snapshot.data!.data()!["chats"].length,
               itemBuilder: (context, index) {
+                String customer = snapshot.data!.data()!["chats"][index]["by"];
+                print(customer);
+                print("Customeeeeeeeeeeeeee");
                 if (snapshot.data!.data()!["chats"][index].containsKey("img")) {
                   String imgUrl = snapshot.data!.data()!["chats"][index]["img"];
 
@@ -219,9 +224,10 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: showTextfield
-          ? SizedBox(
+          ? Container(
               height: size.height * 0.1,
               width: size.width * 0.9,
+              color: Colors.white,
               child: TextField(
                 controller: messageController,
                 maxLines: null,
@@ -244,6 +250,9 @@ class _ChatScreenState extends State<ChatScreen> {
                             to: "complaintId");
                         ChatService.sendMessage(chatRoomId(), chat);
                       }
+                      setState(() {
+                        messageController.text = "";
+                      });
                     },
                   ),
                   border: const OutlineInputBorder(),
@@ -257,6 +266,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   String chatRoomId() {
-    return "complaintId";
+    return widget.complaintId;
   }
 }
